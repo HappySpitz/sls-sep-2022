@@ -1,20 +1,39 @@
 service: sls-sep-2022
 frameworkVersion: '3'
 
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs16.x
 
 functions:
-  getUsers:
-    handler: index.getUsers
+  getTodos:
+    handler: src/handlers/get-todos.handler
     events:
       - httpApi:
-          path: /users
+          path: /todos
           method: get
-  getCars:
-    handler: index.getCars
+
+  createTodo:
+    handler: src/handlers/create-todo.handler
     events:
       - httpApi:
-          path: /cars
+          path: /todos
+          method: post
+
+  getTodo:
+    handler: src/handlers/get-todo.handler
+    events:
+      - httpApi:
+          path: /todos/{todoId}
           method: get
+
+  updateTodo:
+    handler: src/handlers/update-todo.handler
+    events:
+      - httpApi:
+          path: /todos/{todoId}
+          method: patch
