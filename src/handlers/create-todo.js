@@ -8,7 +8,7 @@ const createTodo = async (event) => {
     todo,
     createdAt: date,
     updatedAt: date,
-    complete: false
+    completed: false
   }
 
   await dbConnection.collection('todos').insertOne(newTodo);

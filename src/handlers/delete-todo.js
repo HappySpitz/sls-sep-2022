@@ -1,8 +1,7 @@
 const {dbConnection} = require("../mongo.client");
 const {ObjectId} = require("mongodb");
 
-const updateTodo = async (event) => {
-  const {completed} = JSON.parse(event.body);
+const deleteTodo = async (event) => {
   const {todoId} = event.pathParameters;
 
   const todo = await dbConnection
@@ -14,22 +13,13 @@ const updateTodo = async (event) => {
       body: "Entity not found"
     }
 
-  await dbConnection.collection('todos').updateOne(
-      {_id: todo._id},
-      {
-        $set: {
-          updatedAt: new Date().toISOString(),
-          completed
-        }
-      }
-  )
+  await dbConnection.collection('todos').deleteOne({_id: todo._id});
 
   return {
-    statusCode: 200,
-    body: JSON.stringify('Updated')
+    statusCode: 204
   };
 };
 
 module.exports = {
-  handler: updateTodo,
+  handler: deleteTodo,
 }

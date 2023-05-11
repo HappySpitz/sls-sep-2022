@@ -1,3 +1,5 @@
+org: kristina
+app: aws-node-http-api
 service: sls-sep-2022
 frameworkVersion: '3'
 
@@ -8,6 +10,8 @@ plugins:
 provider:
   name: aws
   runtime: nodejs16.x
+  region: us-east-1
+  versionFunctions: true
 
 functions:
   getTodos:
@@ -37,3 +41,10 @@ functions:
       - httpApi:
           path: /todos/{todoId}
           method: patch
+
+  deleteTodo:
+    handler: src/handlers/delete-todo.handler
+    events:
+      - httpApi:
+          path: /todos/{todoId}
+          method: delete
